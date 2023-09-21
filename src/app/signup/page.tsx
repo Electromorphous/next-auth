@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Button from "@/components/Button";
 
 function Signup() {
   const [user, setUser] = useState({
@@ -10,16 +11,37 @@ function Signup() {
     username: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
+
+    await axios
+      .post("/api/users/signup", user)
+      .then((res) => {
+        console.log("Success", res.data);
+        router.push("/login");
+      })
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="flex flex-col border border-zinc-500 rounded-lg shadow-md px-6 py-4">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col border border-zinc-500 rounded-lg px-6 py-4"
+      >
         <h1 className="text-lg mb-1 text-center">Signup</h1>
 
         <label htmlFor="Email" className="text-zinc-300 text-sm">
           Email
         </label>
         <input
+          required
           className="px-4 py-2 bg-transparent border border-zinc-500 rounded-md mb-4 mt-1 outline-none focus:border-zinc-200"
           type="email"
           id="email"
@@ -34,6 +56,7 @@ function Signup() {
           Username
         </label>
         <input
+          required
           className="px-4 py-2 bg-transparent border border-zinc-500 rounded-md mb-4 mt-1 outline-none focus:border-zinc-200"
           type="text"
           id="username"
@@ -48,6 +71,7 @@ function Signup() {
           Password
         </label>
         <input
+          required
           className="px-4 py-2 bg-transparent border border-zinc-500 rounded-md mb-4 mt-1 outline-none focus:border-zinc-200"
           type="password"
           id="password"
@@ -57,14 +81,13 @@ function Signup() {
             setUser((prev) => ({ ...prev, password: e.target.value }))
           }
         />
-
-        <button className="px-2 py-1 border border-zinc-300 bg-transparent rounded-lg my-3 outline-none hover:bg-zinc-200 hover:text-black transition-all">
-          <strong>Signup</strong>
-        </button>
+        <Button props={{ type: "submit", disabled: loading ? true : false }}>
+          {loading ? "Loading..." : "Signup"}
+        </Button>
         <Link href="/login" className="text-xs hover:underline m-auto w-fit">
           Already have an account
         </Link>
-      </div>
+      </form>
     </div>
   );
 }
