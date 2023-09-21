@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Button from "@/components/Button";
+import Input from "@/components/Input";
 
 function Signup() {
   const [user, setUser] = useState({
@@ -40,47 +41,48 @@ function Signup() {
         <label htmlFor="Email" className="text-zinc-300 text-sm">
           Email
         </label>
-        <input
-          required
-          className="px-4 py-2 bg-transparent border border-zinc-500 rounded-md mb-4 mt-1 outline-none focus:border-zinc-200"
-          type="email"
-          id="email"
-          name="email"
-          value={user.email}
-          onChange={(e) =>
-            setUser((prev) => ({ ...prev, email: e.target.value }))
-          }
+        <Input
+          props={{
+            required: true,
+            type: "email",
+            id: "email",
+            name: "email",
+            value: user.email,
+            onChange: (e: any) =>
+              setUser((prev) => ({ ...prev, email: e.target.value })),
+          }}
         />
 
         <label htmlFor="username" className="text-zinc-300 text-sm">
           Username
         </label>
-        <input
-          required
-          className="px-4 py-2 bg-transparent border border-zinc-500 rounded-md mb-4 mt-1 outline-none focus:border-zinc-200"
-          type="text"
-          id="username"
-          name="username"
-          value={user.username}
-          onChange={(e) =>
-            setUser((prev) => ({ ...prev, username: e.target.value }))
-          }
+        <Input
+          props={{
+            required: true,
+            type: "text",
+            id: "username",
+            name: "username",
+            value: user.username,
+            onChange: (e: any) =>
+              setUser((prev) => ({ ...prev, username: e.target.value })),
+          }}
         />
 
         <label htmlFor="password" className="text-zinc-300 text-sm">
           Password
         </label>
-        <input
-          required
-          className="px-4 py-2 bg-transparent border border-zinc-500 rounded-md mb-4 mt-1 outline-none focus:border-zinc-200"
-          type="password"
-          id="password"
-          name="password"
-          value={user.password}
-          onChange={(e) =>
-            setUser((prev) => ({ ...prev, password: e.target.value }))
-          }
+        <Input
+          props={{
+            required: true,
+            type: "password",
+            id: "password",
+            name: "password",
+            value: user.password,
+            onChange: (e: any) =>
+              setUser((prev) => ({ ...prev, password: e.target.value })),
+          }}
         />
+
         <Button props={{ type: "submit", disabled: loading ? true : false }}>
           {loading ? "Loading..." : "Signup"}
         </Button>
