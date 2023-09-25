@@ -26,7 +26,7 @@ function Signup() {
         console.log("Success", res.data);
         router.push("/login");
       })
-      .catch((err) => console.error(err.response.data.message))
+      .catch((err) => console.error(err.response.data.error))
       .finally(() => setLoading(false));
   };
 

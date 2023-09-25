@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@/components/Button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -18,9 +18,22 @@ function Profile() {
         console.log(res.data);
         router.push("/login");
       })
-      .catch((err) => console.error(err.response.data.message))
+      .catch((err) => console.error(err.response.data.error))
       .finally(() => setLoading(false));
   };
+
+  const getUserData = async () => {
+    await axios
+      .get("/api/users/profile")
+      .then((res) => {
+        console.log("Data received", res.data);
+      })
+      .catch((err) => console.error(err.response.data.error));
+  };
+
+  useEffect(() => {
+    getUserData();
+  }, []);
 
   return (
     <>
