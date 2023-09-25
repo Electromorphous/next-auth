@@ -43,10 +43,10 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
 
-    response.cookies.set("token", token, { httpOnly: true });
+    response.cookies.set("token", token, { httpOnly: true, sameSite: "lax" });
 
     return response;
-  } catch (err: any) {
-    return NextResponse.json({ message: err.message }, { status: 500 });
+  } catch (err) {
+    return NextResponse.json({ error: err }, { status: 500 });
   }
 }

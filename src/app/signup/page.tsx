@@ -43,6 +43,7 @@ function Signup() {
         </label>
         <Input
           props={{
+            autoFocus: true,
             required: true,
             type: "email",
             id: "email",
@@ -83,7 +84,7 @@ function Signup() {
           }}
         />
 
-        <Button props={{ type: "submit", disabled: loading ? true : false }}>
+        <Button props={{ type: "submit", disabled: loading }}>
           {loading ? "Loading..." : "Signup"}
         </Button>
         <Link href="/login" className="text-xs hover:underline m-auto w-fit">
