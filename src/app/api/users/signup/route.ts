@@ -12,10 +12,10 @@ export async function POST(request: NextRequest) {
 
     // check if user with this email already exists
     if (await User.findOne({ email })) {
-      return NextResponse.json({
-        error: "This email is already taken by a user. Try to login.",
-        status: 400,
-      });
+      return NextResponse.json(
+        { message: "This email is already taken by a user. Try to login." },
+        { status: 400 }
+      );
     }
 
     // hash password
@@ -26,16 +26,11 @@ export async function POST(request: NextRequest) {
 
     const savedUser = await user.save();
 
-    return NextResponse.json({
-      message: "User created successfully",
-      status: 201,
-      success: true,
-      savedUser,
-    });
+    return NextResponse.json(
+      { message: "User created successfully", savedUser },
+      { status: 201 }
+    );
   } catch (err: any) {
-    return NextResponse.json({
-      error: err.message,
-      status: 500,
-    });
+    return NextResponse.json({ message: err.message }, { status: 500 });
   }
 }

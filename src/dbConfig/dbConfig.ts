@@ -19,8 +19,8 @@ export async function connect() {
       console.error("MongoDB URI could not resolve");
       process.exit();
     }
-  } catch (error) {
-    console.error("Something went wrong");
-    console.error(error);
+  } catch (err) {
+    console.error("Something went wrong while connecting to MongoDB");
+    console.error(err);
   }
 }

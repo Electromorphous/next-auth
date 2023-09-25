@@ -13,9 +13,28 @@ function Login() {
   });
   const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
+
+    await axios
+      .post("/api/users/login", user)
+      .then((res) => {
+        console.log("Success", res.data);
+        router.push("/profile");
+      })
+      .catch((err) => console.error(err.response.data.message))
+      .finally(() => setLoading(false));
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="flex flex-col border border-zinc-500 rounded-lg px-6 py-4">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col border border-zinc-500 rounded-lg px-6 py-4"
+      >
         <h1 className="text-lg mb-1 text-center">Login</h1>
 
         <label htmlFor="Email" className="text-zinc-300 text-sm">
@@ -54,7 +73,7 @@ function Login() {
         <Link href="/signup" className="text-xs hover:underline m-auto w-fit">
           Create account
         </Link>
-      </div>
+      </form>
     </div>
   );
 }
