@@ -3,36 +3,55 @@ import { useEffect, useState } from "react";
 import Button from "@/components/Button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { tokenType } from "@/types/enums";
 
 function Profile() {
   const [userData, setUserData] = useState({
+    _id: "",
     username: "",
     email: "",
     isAdmin: false,
     isVerified: false,
   });
+  const [verifyButtonClicked, setVerifyButtonClicked] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const getUserData = async () => {
+    await axios
+      .get("/api/users/profile")
+      .then((res) => {
+        console.log(res.data.user);
+        setUserData(res.data.user);
+      })
+      .catch((err) => console.error(err.response.data.error));
+  };
 
   const logout = async () => {
     setLoading(true);
 
     await axios
       .get("/api/users/logout")
-      .then((res) => {
+      .then(() => {
         router.push("/login");
       })
       .catch((err) => console.error(err.response.data.message))
       .finally(() => setLoading(false));
   };
 
-  const getUserData = async () => {
+  const verifyEmail = async () => {
+    setVerifyButtonClicked(true);
+    // send verification mail
     await axios
-      .get("/api/users/profile")
-      .then((res) => {
-        setUserData(res.data.user);
+      .post("/api/users/sendVerificationEmail", {
+        email: userData.email,
+        emailType: tokenType.VERIFY_USER,
+        userId: userData._id,
       })
-      .catch((err) => console.error(err.response.data.error));
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.error(err.response.data.message));
   };
 
   useEffect(() => {
@@ -51,9 +70,20 @@ function Profile() {
           <p>isVerified: {userData.isVerified.toString()}</p>
         </div>
 
-        <Button props={{ onClick: logout, disabled: loading }}>
-          {loading ? "Logging out..." : "Logout"}
-        </Button>
+        <div className="flex gap-2">
+          {userData.isVerified ? (
+            <></>
+          ) : (
+            <Button
+              props={{ onClick: verifyEmail, disabled: verifyButtonClicked }}
+            >
+              {verifyButtonClicked ? "Email Sent" : "Verify Email"}
+            </Button>
+          )}
+          <Button props={{ onClick: logout, disabled: loading }}>
+            {loading ? "Logging out..." : "Logout"}
+          </Button>
+        </div>
       </div>
     </div>
   );
