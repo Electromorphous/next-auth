@@ -5,12 +5,14 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
+import Password from "@/components/Password";
 
 function Signup() {
   const [user, setUser] = useState({
     email: "",
     username: "",
     password: "",
+    confirmPassword: "",
   });
   const [loading, setLoading] = useState(false);
 
@@ -18,6 +20,12 @@ function Signup() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+
+    if (user.password !== user.confirmPassword) {
+      console.error("passwords don't match");
+      return;
+    }
+
     setLoading(true);
 
     await axios
@@ -72,15 +80,28 @@ function Signup() {
         <label htmlFor="password" className="text-zinc-300 text-sm">
           Password
         </label>
-        <Input
+        <Password
           props={{
             required: true,
-            type: "password",
             id: "password",
             name: "password",
             value: user.password,
             onChange: (e: any) =>
               setUser((prev) => ({ ...prev, password: e.target.value })),
+          }}
+        />
+
+        <label htmlFor="confirmPassword" className="text-zinc-300 text-sm">
+          Confirm Password
+        </label>
+        <Password
+          props={{
+            required: true,
+            id: "confirmPassword",
+            name: "confirmPassword",
+            value: user.confirmPassword,
+            onChange: (e: any) =>
+              setUser((prev) => ({ ...prev, confirmPassword: e.target.value })),
           }}
         />
 

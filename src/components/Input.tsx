@@ -1,4 +1,4 @@
-// only for text, email, or password
+// only for text or email
 
 type InputProps = {
   props: any;
