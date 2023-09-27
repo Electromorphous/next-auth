@@ -3,7 +3,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
-function Email() {
+function EmailVerification() {
   const [token, setToken] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -12,10 +12,9 @@ function Email() {
 
   const verifyEmail = async () => {
     await axios
-      .post("/api/users/emailVerification", { token: token })
+      .post("/api/users/verifyEmail", { token: token })
       .then((res) => {
         setSuccess(true);
-        console.log(res.data);
         router.push("/login");
       })
       .catch((err) => console.error(err.response.data.message))
@@ -23,11 +22,13 @@ function Email() {
   };
 
   useEffect(() => {
-    setToken(window.location.search.split("=")[1] ?? "");
+    const tok = window.location.search.split("=")[1];
+    if (!tok) router.push("/");
+    setToken(tok);
   }, []);
 
   useEffect(() => {
-    if (!!token) verifyEmail();
+    verifyEmail();
   }, [token]);
 
   return (
@@ -44,4 +45,4 @@ function Email() {
   );
 }
 
-export default Email;
+export default EmailVerification;

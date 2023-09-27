@@ -3,7 +3,11 @@ import type { Metadata } from "next";
 import { Inter, Inclusive_Sans } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
-const inclusiveSans = Inclusive_Sans({ subsets: ["latin"], weight: ["400"] });
+const inclusiveSans = Inclusive_Sans({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--custom-font-inclusive-sans",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={inclusiveSans.variable}>
       <body className={inclusiveSans.className}>{children}</body>
     </html>
   );

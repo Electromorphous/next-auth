@@ -2,7 +2,7 @@ import { NextResponse, NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
-  const isPublicPath = path === "/login" || path === "/signup";
+  const isPublicPath = publicPaths.includes(path);
   const token = request.cookies.get("token")?.value || ""; // if token is found then return its value else return ""
 
   // if user wants a public path and they are logged in
@@ -26,5 +26,10 @@ export const config = {
     "/signup",
     "/login",
     "/emailVerification",
+    "/emailForm",
+    "/passwordReset",
   ],
 };
+
+// these are paths which the user can visit only when logged out, cannot visit when logged in.
+const publicPaths = ["/login", "/signup", "/emailForm", "/passwordReset"];

@@ -3,7 +3,7 @@ import User from "@/models/userModel";
 import bcryptjs from "bcryptjs";
 import { tokenType } from "@/types/enums";
 
-export async function sendEmail(email: string, emailType: tokenType) {
+export async function mailer(email: string, emailType: tokenType) {
   try {
     // generating token by hashing the email
     const token = await bcryptjs.hash(email, 10);
@@ -41,15 +41,10 @@ export async function sendEmail(email: string, emailType: tokenType) {
         emailType === tokenType.VERIFY_USER
           ? "Verify Your Email"
           : "Reset Your Password",
-      html: `<p>Click <a href="${
-        process.env.DOMAIN
-      }/emailVerification?token=${token}">here</a> to ${
+      html:
         emailType === tokenType.VERIFY_USER
-          ? "verify your email"
-          : "reset your password"
-      } or copy and paste the link below in your browser.<br/>
-      ${process.env.DOMAIN}/emailVerification?token=${token}
-      </p>`,
+          ? `<p>Click <a href="${process.env.DOMAIN}/emailVerification?token=${token}">here</a> to verify your email or copy and paste the link below in your browser.<br/> ${process.env.DOMAIN}/emailVerification?token=${token}</p>`
+          : `<p>Click <a href="${process.env.DOMAIN}/passwordReset?token=${token}">here</a> to reset your password or copy and paste the link below in your browser.<br/>${process.env.DOMAIN}/passwordReset?token=${token}</p>`,
     };
 
     return await transport.sendMail(mailOptions);

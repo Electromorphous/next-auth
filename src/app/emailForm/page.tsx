@@ -6,12 +6,10 @@ import axios from "axios";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Password from "@/components/Password";
+import { tokenType } from "@/types/enums";
 
 function Login() {
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -21,10 +19,13 @@ function Login() {
     setLoading(true);
 
     await axios
-      .post("/api/users/login", user)
+      .post("/api/users/sendEmail", {
+        email: email,
+        emailType: tokenType.RESET_PASSWORD,
+      })
       .then((res) => {
         console.log("Success", res.data);
-        router.push("/profile");
+        router.push("/login");
       })
       .catch((err) => console.error(err.response.data.message))
       .finally(() => setLoading(false));
@@ -36,7 +37,7 @@ function Login() {
         onSubmit={handleSubmit}
         className="flex flex-col border border-zinc-500 rounded-lg px-6 py-4"
       >
-        <h1 className="text-lg mb-1 text-center">Login</h1>
+        <h1 className="text-lg mb-1 text-center">Reset Your Password</h1>
 
         <label htmlFor="Email" className="text-zinc-300 text-sm">
           Email
@@ -48,37 +49,14 @@ function Login() {
             type: "email",
             id: "email",
             name: "email",
-            value: user.email,
-            onChange: (e: any) =>
-              setUser((prev) => ({ ...prev, email: e.target.value })),
-          }}
-        />
-
-        <label htmlFor="password" className="text-zinc-300 text-sm">
-          Password
-        </label>
-        <Password
-          props={{
-            required: true,
-            id: "password",
-            name: "password",
-            value: user.password,
-            onChange: (e: any) =>
-              setUser((prev) => ({ ...prev, password: e.target.value })),
+            value: email,
+            onChange: (e: any) => setEmail(e.target.value),
           }}
         />
 
         <Button props={{ type: "submit", disabled: loading }}>
-          {loading ? "Logging in..." : "Login"}
+          {loading ? "Sending Email..." : "Send Email"}
         </Button>
-        <div className="flex items-center justify-between">
-          <Link href="/emailForm" className="text-xs hover:underline w-fit">
-            Forgot Password
-          </Link>
-          <Link href="/signup" className="text-xs hover:underline w-fit">
-            Create account
-          </Link>
-        </div>
       </form>
     </div>
   );

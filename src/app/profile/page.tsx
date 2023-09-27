@@ -7,11 +7,10 @@ import { tokenType } from "@/types/enums";
 
 function Profile() {
   const [userData, setUserData] = useState({
-    _id: "",
     username: "",
     email: "",
     isAdmin: false,
-    isVerified: false,
+    isVerified: true,
   });
   const [verifyButtonClicked, setVerifyButtonClicked] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -21,7 +20,6 @@ function Profile() {
     await axios
       .get("/api/users/profile")
       .then((res) => {
-        console.log(res.data.user);
         setUserData(res.data.user);
       })
       .catch((err) => console.error(err.response.data.error));
@@ -41,12 +39,12 @@ function Profile() {
 
   const verifyEmail = async () => {
     setVerifyButtonClicked(true);
+
     // send verification mail
     await axios
-      .post("/api/users/sendVerificationEmail", {
+      .post("/api/users/sendEmail", {
         email: userData.email,
         emailType: tokenType.VERIFY_USER,
-        userId: userData._id,
       })
       .then((res) => {
         console.log(res.data);
