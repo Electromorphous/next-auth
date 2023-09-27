@@ -7,14 +7,13 @@ export function middleware(request: NextRequest) {
 
   // if user wants a public path and they are logged in
   if (isPublicPath && !!token) {
-    console.log(1);
-    return NextResponse.redirect(new URL("/", request.nextUrl));
+    return NextResponse.redirect(new URL("/profile", request.nextUrl));
   }
   // if user wants a private path and not logged in
   if (!isPublicPath && !token) {
     return NextResponse.redirect(new URL("/login", request.nextUrl));
   }
-  // for any other case just go ahead
+  // if any other case just carry on
 
   return NextResponse.next();
 }

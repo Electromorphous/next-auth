@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getDataFromToken } from "@/helpers/getDataFromToken";
+import { getDataFromToken } from "@/utilities/getDataFromToken";
 import User from "@/models/userModel";
 import { connect } from "@/dbConfig/dbConfig";
 
@@ -11,6 +11,6 @@ export async function GET(request: NextRequest) {
     const user = await User.findOne({ _id: tokenData.id }).select("-password");
     return NextResponse.json({ user }, { status: 200 });
   } catch (err) {
-    return NextResponse.json({ error: err }, { status: 500 });
+    return NextResponse.json({ message: err }, { status: 500 });
   }
 }

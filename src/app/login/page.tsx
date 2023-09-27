@@ -25,7 +25,7 @@ function Login() {
         console.log("Success", res.data);
         router.push("/profile");
       })
-      .catch((err) => console.error(err.response.data.error))
+      .catch((err) => console.error(err.response.data.message))
       .finally(() => setLoading(false));
   };
 
@@ -69,7 +69,7 @@ function Login() {
         />
 
         <Button props={{ type: "submit", disabled: loading }}>
-          {loading ? "Loading..." : "Signup"}
+          {loading ? "Loading..." : "Login"}
         </Button>
         <Link href="/signup" className="text-xs hover:underline m-auto w-fit">
           Create account

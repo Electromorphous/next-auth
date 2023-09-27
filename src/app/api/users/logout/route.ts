@@ -9,6 +9,6 @@ export async function GET() {
     res.cookies.set("token", "", { httpOnly: true, sameSite: "lax" });
     return res;
   } catch (err) {
-    return NextResponse.json({ error: err }, { status: 500 });
+    return NextResponse.json({ message: err }, { status: 500 });
   }
 }

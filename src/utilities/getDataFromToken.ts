@@ -6,8 +6,8 @@ export const getDataFromToken = async (request: NextRequest) => {
     const token = request.cookies.get("token")?.value || "";
     const decodedData = jwt.verify(token, process.env.TOKEN_SECRET!);
     return decodedData;
-  } catch (err) {
-    // throw new Error(err.message);
-    console.error("Error occured while getting data from token", err);
+  } catch (err: any) {
+    console.error("Error occured while getting data from token");
+    throw new Error(err.message);
   }
 };
