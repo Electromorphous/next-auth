@@ -26,10 +26,10 @@ export const config = {
     "/signup",
     "/login",
     "/emailVerification",
-    "/emailForm",
+    "/forgotPassword",
     "/passwordReset",
   ],
 };
 
 // these are paths which the user can visit only when logged out, cannot visit when logged in.
-const publicPaths = ["/login", "/signup", "/emailForm", "/passwordReset"];
+const publicPaths = ["/login", "/signup", "/forgotPassword", "/passwordReset"];

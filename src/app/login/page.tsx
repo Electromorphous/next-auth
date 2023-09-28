@@ -72,7 +72,10 @@ function Login() {
           {loading ? "Logging in..." : "Login"}
         </Button>
         <div className="flex items-center justify-between">
-          <Link href="/emailForm" className="text-xs hover:underline w-fit">
+          <Link
+            href="/forgotPassword"
+            className="text-xs hover:underline w-fit"
+          >
             Forgot Password
           </Link>
           <Link href="/signup" className="text-xs hover:underline w-fit">

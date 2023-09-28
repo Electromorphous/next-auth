@@ -2,11 +2,9 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, Inclusive_Sans } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
-const inclusiveSans = Inclusive_Sans({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["400"],
-  variable: "--custom-font-inclusive-sans",
+  weight: ["300", "400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -20,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inclusiveSans.variable}>
-      <body className={inclusiveSans.className}>{children}</body>
+    <html lang="en">
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
